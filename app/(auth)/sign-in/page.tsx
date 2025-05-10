@@ -1,60 +1,67 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { BookOpen, ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { BookOpen, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function SignInPage() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleCheckboxChange = (checked: boolean) => {
     setFormData((prev) => ({
       ...prev,
       rememberMe: checked,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     // Simulate authentication
     try {
       // In a real app, you would call your authentication API here
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      router.push("/dashboard") // Redirect to dashboard after successful login
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      router.push("/dashboard"); // Redirect to dashboard after successful login
     } catch (error) {
-      console.error("Login failed:", error)
+      console.error("Login failed:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="container flex flex-1 items-center justify-center py-12">
+      <div className="flex flex-1 items-center justify-center py-12">
         <div className="w-full max-w-md space-y-6">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Link href="/" className="flex items-center gap-2">
@@ -62,13 +69,17 @@ export default function SignInPage() {
               <span className="text-xl font-bold">EchoLearn</span>
             </Link>
             <h1 className="text-3xl font-bold">Welcome back</h1>
-            <p className="text-gray-500 dark:text-gray-400">Sign in to your account to continue</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              Sign in to your account to continue
+            </p>
           </div>
 
-          <Card>
+          <Card className="border border-gray-300">
             <CardHeader>
               <CardTitle>Sign In</CardTitle>
-              <CardDescription>Enter your credentials to access your account</CardDescription>
+              <CardDescription>
+                Enter your credentials to access your account
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -82,12 +93,16 @@ export default function SignInPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    className="border border-gray-300"
                   />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm text-primary hover:underline"
+                    >
                       Forgot password?
                     </Link>
                   </div>
@@ -99,15 +114,24 @@ export default function SignInPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
+                    className="border border-gray-300"
                   />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="remember-me" checked={formData.rememberMe} onCheckedChange={handleCheckboxChange} />
+                  <Checkbox
+                    id="remember-me"
+                    checked={formData.rememberMe}
+                    onCheckedChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="remember-me" className="text-sm">
                     Remember me
                   </Label>
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-gray-800 hover:bg-gray-700 text-white cursor-pointer"
+                >
                   {isLoading ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
@@ -119,29 +143,13 @@ export default function SignInPage() {
                   Sign up
                 </Link>
               </div>
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="w-full">
-                  Google
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Apple
-                </Button>
-              </div>
             </CardFooter>
           </Card>
 
           <div className="text-center">
-            <Link
+          <Link
               href="/"
-              className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary dark:text-gray-400"
+              className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#333333] dark:text-gray-400"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to home
@@ -150,5 +158,5 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
