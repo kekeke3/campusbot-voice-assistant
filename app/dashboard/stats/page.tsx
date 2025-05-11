@@ -106,8 +106,8 @@ export default function StatsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between p-4">
+      <header className="border-b bg-card border-gray-300">
+        <div className=" flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary" />
             <span className="text-xl font-bold">Learning Statistics</span>
@@ -156,11 +156,11 @@ export default function StatsPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container py-6">
+      <main className="flex-1 px-6 py-6">
         <div className="space-y-6">
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Cards Studied</CardTitle>
               </CardHeader>
@@ -172,7 +172,7 @@ export default function StatsPage() {
                 </p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Study Time</CardTitle>
               </CardHeader>
@@ -184,7 +184,7 @@ export default function StatsPage() {
                 </p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Day Streak</CardTitle>
               </CardHeader>
@@ -196,7 +196,7 @@ export default function StatsPage() {
                 </p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Mastery Score</CardTitle>
               </CardHeader>
@@ -213,7 +213,7 @@ export default function StatsPage() {
           {/* AI Insights Button */}
           <Button
             variant="outline"
-            className="w-full border-dashed border-2 h-auto py-3 flex items-center gap-2"
+            className="w-full border-dashed border-gray-300 border-2 h-auto py-3 flex items-center gap-2"
             onClick={() => setShowAIInsights(true)}
           >
             <div className="bg-primary/10 rounded-full p-2">
@@ -240,7 +240,7 @@ export default function StatsPage() {
             <TabsContent value="overview" className="space-y-4 mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Study Sessions */}
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle className="text-lg">Study Sessions</CardTitle>
                     <CardDescription>Your study activity over time</CardDescription>
@@ -267,15 +267,15 @@ export default function StatsPage() {
                 </Card>
 
                 {/* Performance */}
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle className="text-lg">Performance</CardTitle>
                     <CardDescription>Your answer accuracy</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center justify-center h-[200px]">
-                      <div className="relative h-40 w-40 rounded-full border-8 border-primary flex items-center justify-center">
-                        <div className="absolute inset-0 rounded-full border-8 border-muted-foreground/20 -rotate-[60deg]"></div>
+                      <div className="relative h-40 w-40 rounded-full border-8 border-gray-300 border-primary flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full border-8 border-gray-300 border-muted-foreground/20 -rotate-[60deg]"></div>
                         <div className="text-center">
                           <div className="text-3xl font-bold">
                             {Math.round((stats.correctAnswers / (stats.correctAnswers + stats.incorrectAnswers)) * 100)}
@@ -299,7 +299,7 @@ export default function StatsPage() {
                 </Card>
 
                 {/* Study Habits */}
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle className="text-lg">Study Habits</CardTitle>
                     <CardDescription>When and how you study best</CardDescription>
@@ -342,7 +342,7 @@ export default function StatsPage() {
                 </Card>
 
                 {/* Learning Insights */}
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle className="text-lg">Learning Insights</CardTitle>
                     <CardDescription>Patterns in your learning behavior</CardDescription>
@@ -369,7 +369,7 @@ export default function StatsPage() {
 
             {/* Progress Tab */}
             <TabsContent value="progress" className="space-y-4 mt-4">
-              <Card>
+              <Card className="border-gray-300">
                 <CardHeader>
                   <CardTitle>Progress Over Time</CardTitle>
                   <CardDescription>Your learning journey</CardDescription>
@@ -408,7 +408,7 @@ export default function StatsPage() {
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Mastery Growth</CardTitle>
                     <CardDescription>Your knowledge mastery over time</CardDescription>
@@ -431,7 +431,7 @@ export default function StatsPage() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Daily Streak</CardTitle>
                     <CardDescription>Your consistency in studying</CardDescription>
@@ -457,7 +457,7 @@ export default function StatsPage() {
                       <span>4 weeks ago</span>
                       <span>Today</span>
                     </div>
-                    <div className="mt-4 pt-4 border-t">
+                    <div className="mt-4 pt-4 border-t border-gray-300">
                       <div className="flex justify-between items-center">
                         <div>
                           <h4 className="font-medium">Current Streak</h4>
@@ -476,7 +476,7 @@ export default function StatsPage() {
 
             {/* Decks Tab */}
             <TabsContent value="decks" className="space-y-4 mt-4">
-              <Card>
+              <Card className="border-gray-300">
                 <CardHeader>
                   <CardTitle>Deck Performance</CardTitle>
                   <CardDescription>How you're doing across different decks</CardDescription>
@@ -506,7 +506,7 @@ export default function StatsPage() {
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Study Time Distribution</CardTitle>
                     <CardDescription>Time spent on each deck</CardDescription>
@@ -570,7 +570,7 @@ export default function StatsPage() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Most Challenging Cards</CardTitle>
                     <CardDescription>Cards you struggle with the most</CardDescription>
@@ -602,7 +602,7 @@ export default function StatsPage() {
 
             {/* Topics Tab */}
             <TabsContent value="topics" className="space-y-4 mt-4">
-              <Card>
+              <Card className="border-gray-300">
                 <CardHeader>
                   <CardTitle>Topic Mastery</CardTitle>
                   <CardDescription>Your understanding of different topics</CardDescription>
@@ -641,14 +641,14 @@ export default function StatsPage() {
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Learning Recommendations</CardTitle>
                     <CardDescription>Topics to focus on next</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
-                      <div className="p-3 border rounded-md">
+                      <div className="p-3 border border-gray-300 rounded-md">
                         <div className="flex items-start gap-2">
                           <div className="bg-primary/10 rounded-full p-1.5 mt-0.5">
                             <Zap className="h-4 w-4 text-primary" />
@@ -661,7 +661,7 @@ export default function StatsPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="p-3 border rounded-md">
+                      <div className="p-3 border border-gray-300 rounded-md">
                         <div className="flex items-start gap-2">
                           <div className="bg-primary/10 rounded-full p-1.5 mt-0.5">
                             <Zap className="h-4 w-4 text-primary" />
@@ -684,7 +684,7 @@ export default function StatsPage() {
                   </CardFooter>
                 </Card>
 
-                <Card>
+                <Card className="border-gray-300">
                   <CardHeader>
                     <CardTitle>Learning Style Analysis</CardTitle>
                     <CardDescription>How you learn most effectively</CardDescription>
@@ -746,7 +746,7 @@ export default function StatsPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2 max-h-[60vh] overflow-y-auto pr-2">
-            <div className="p-4 bg-primary/5 rounded-lg border">
+            <div className="p-4 bg-primary/5 rounded-lg border border-gray-300">
               <h3 className="font-medium text-lg mb-2">Your Learning Profile</h3>
               <p className="text-sm mb-4">
                 Based on your study patterns, we've identified the following insights about how you learn most
@@ -802,7 +802,7 @@ export default function StatsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
+              <Card className="border-gray-300">
                 <CardHeader>
                   <CardTitle className="text-base">Recommended Study Schedule</CardTitle>
                   <CardDescription>Optimized for your learning patterns</CardDescription>
@@ -840,7 +840,7 @@ export default function StatsPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-gray-300">
                 <CardHeader>
                   <CardTitle className="text-base">Focus Recommendations</CardTitle>
                   <CardDescription>Areas that need attention</CardDescription>
@@ -882,7 +882,7 @@ export default function StatsPage() {
               </Card>
             </div>
 
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader>
                 <CardTitle>Long-term Learning Trajectory</CardTitle>
                 <CardDescription>Your projected mastery over time</CardDescription>
@@ -920,7 +920,7 @@ export default function StatsPage() {
                     <span className="text-xs">Current trajectory</span>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t">
+                <div className="mt-4 pt-4 border-t border-gray-300">
                   <p className="text-sm">
                     Following our personalized recommendations could help you reach 90% mastery 3 weeks sooner than your
                     current pace.

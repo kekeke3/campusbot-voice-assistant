@@ -260,8 +260,8 @@ export default function VoicePracticePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between p-4">
+      <header className="border-b border-gray-300 bg-card">
+        <div className=" flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <Link href="/dashboard">
               <Button variant="ghost" size="icon">
@@ -282,10 +282,10 @@ export default function VoicePracticePage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container py-6">
+      <main className="flex-1  py-6">
         {!sessionActive ? (
           <div className="max-w-2xl mx-auto space-y-6">
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader>
                 <CardTitle>Start Voice Practice Session</CardTitle>
                 <CardDescription>
@@ -295,7 +295,7 @@ export default function VoicePracticePage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="deck-select">Select Deck</Label>
-                  <Select value={selectedDeck} onValueChange={setSelectedDeck}>
+                  <Select value={selectedDeck} onValueChange={setSelectedDeck} >
                     <SelectTrigger id="deck-select">
                       <SelectValue placeholder="Select a deck" />
                     </SelectTrigger>
@@ -415,7 +415,7 @@ export default function VoicePracticePage() {
             </div>
 
             {/* Flashcard */}
-            <Card className="border-2">
+            <Card className="border-2 border-gray-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex flex-wrap gap-1">
@@ -437,7 +437,7 @@ export default function VoicePracticePage() {
                 </div>
 
                 {showAnswer && (
-                  <div className="min-h-[100px] border-t pt-4">
+                  <div className="min-h-[100px] border-t border-gray-300 pt-4">
                     <h3 className="text-sm text-muted-foreground mb-2">Answer:</h3>
                     <p>{currentCard.answer}</p>
                   </div>

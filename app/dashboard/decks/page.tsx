@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
+import { useState } from "react";
+import Link from "next/link";
 import {
   BookOpen,
   Search,
@@ -19,12 +19,19 @@ import {
   Download,
   ChevronDown,
   ArrowUpDown,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,7 +39,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -41,7 +48,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -49,10 +56,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 // Mock data for decks
 const mockDecks = [
@@ -140,77 +147,87 @@ const mockDecks = [
     completedCards: 41,
     masteryScore: 92,
   },
-]
+];
 
 export default function DecksPage() {
-  const [decks, setDecks] = useState(mockDecks)
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [sortBy, setSortBy] = useState<string>("lastStudied")
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [deckToDelete, setDeckToDelete] = useState<string | null>(null)
+  const [decks, setDecks] = useState(mockDecks);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>("lastStudied");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deckToDelete, setDeckToDelete] = useState<string | null>(null);
 
   // Get all unique tags from decks
-  const allTags = Array.from(new Set(decks.flatMap((deck) => deck.tags)))
+  const allTags = Array.from(new Set(decks.flatMap((deck) => deck.tags)));
 
   // Filter decks based on search query and selected tags
   const filteredDecks = decks.filter((deck) => {
     const matchesSearch =
       deck.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deck.description.toLowerCase().includes(searchQuery.toLowerCase())
+      deck.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => deck.tags.includes(tag))
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.some((tag) => deck.tags.includes(tag));
 
-    return matchesSearch && matchesTags
-  })
+    return matchesSearch && matchesTags;
+  });
 
   // Sort decks based on selected sort option
   const sortedDecks = [...filteredDecks].sort((a, b) => {
     switch (sortBy) {
       case "title":
-        return a.title.localeCompare(b.title)
+        return a.title.localeCompare(b.title);
       case "cardCount":
-        return b.cardCount - a.cardCount
+        return b.cardCount - a.cardCount;
       case "progress":
-        return b.progress - a.progress
+        return b.progress - a.progress;
       case "createdAt":
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       case "lastStudied":
       default:
         // Simple sort for mock data - in a real app, you'd parse dates properly
-        if (a.lastStudied === "Never") return 1
-        if (b.lastStudied === "Never") return -1
-        if (a.lastStudied === "Today") return -1
-        if (b.lastStudied === "Today") return 1
-        return a.lastStudied.localeCompare(b.lastStudied)
+        if (a.lastStudied === "Never") return 1;
+        if (b.lastStudied === "Never") return -1;
+        if (a.lastStudied === "Today") return -1;
+        if (b.lastStudied === "Today") return 1;
+        return a.lastStudied.localeCompare(b.lastStudied);
     }
-  })
+  });
 
   // Toggle favorite status
   const toggleFavorite = (deckId: string) => {
-    setDecks(decks.map((deck) => (deck.id === deckId ? { ...deck, isFavorite: !deck.isFavorite } : deck)))
-  }
+    setDecks(
+      decks.map((deck) =>
+        deck.id === deckId ? { ...deck, isFavorite: !deck.isFavorite } : deck
+      )
+    );
+  };
 
   // Delete deck
   const deleteDeck = () => {
     if (deckToDelete) {
-      setDecks(decks.filter((deck) => deck.id !== deckToDelete))
-      setDeckToDelete(null)
-      setShowDeleteDialog(false)
+      setDecks(decks.filter((deck) => deck.id !== deckToDelete));
+      setDeckToDelete(null);
+      setShowDeleteDialog(false);
     }
-  }
+  };
 
   // Toggle tag selection
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
-  }
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between p-4">
+      <header className="border-b border-gray-300 bg-card">
+        <div className=" flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
             <span className="text-xl font-bold">My Decks</span>
@@ -225,7 +242,7 @@ export default function DecksPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container py-6">
+      <main className="flex-1 px-6 py-6">
         <div className="space-y-6">
           {/* Search and Filters */}
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
@@ -254,13 +271,19 @@ export default function DecksPage() {
                   <DropdownMenuSeparator />
                   <div className="max-h-[300px] overflow-y-auto p-2">
                     {allTags.map((tag) => (
-                      <div key={tag} className="flex items-center space-x-2 py-1">
+                      <div
+                        key={tag}
+                        className="flex items-center space-x-2 py-1"
+                      >
                         <Checkbox
                           id={`tag-${tag}`}
                           checked={selectedTags.includes(tag)}
                           onCheckedChange={() => toggleTag(tag)}
                         />
-                        <Label htmlFor={`tag-${tag}`} className="text-sm cursor-pointer">
+                        <Label
+                          htmlFor={`tag-${tag}`}
+                          className="text-sm cursor-pointer"
+                        >
                           {tag}
                         </Label>
                       </div>
@@ -268,7 +291,12 @@ export default function DecksPage() {
                   </div>
                   <DropdownMenuSeparator />
                   <div className="p-2">
-                    <Button variant="outline" size="sm" className="w-full" onClick={() => setSelectedTags([])}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => setSelectedTags([])}
+                    >
                       Clear Filters
                     </Button>
                   </div>
@@ -294,7 +322,7 @@ export default function DecksPage() {
                 </SelectContent>
               </Select>
 
-              <div className="flex items-center border rounded-md overflow-hidden">
+              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   size="sm"
@@ -317,37 +345,53 @@ export default function DecksPage() {
 
           {/* Deck Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Total Decks</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Total Decks
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{decks.length}</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Total Cards</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{decks.reduce((sum, deck) => sum + deck.cardCount, 0)}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Cards Mastered</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{decks.reduce((sum, deck) => sum + deck.completedCards, 0)}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Average Mastery</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Total Cards
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {Math.round(decks.reduce((sum, deck) => sum + deck.masteryScore, 0) / decks.length)}%
+                  {decks.reduce((sum, deck) => sum + deck.cardCount, 0)}
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-gray-300">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Cards Mastered
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {decks.reduce((sum, deck) => sum + deck.completedCards, 0)}
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-gray-300">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Average Mastery
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {Math.round(
+                    decks.reduce((sum, deck) => sum + deck.masteryScore, 0) /
+                      decks.length
+                  )}
+                  %
                 </div>
               </CardContent>
             </Card>
@@ -379,8 +423,8 @@ export default function DecksPage() {
                       variant="outline"
                       className="mt-4"
                       onClick={() => {
-                        setSearchQuery("")
-                        setSelectedTags([])
+                        setSearchQuery("");
+                        setSelectedTags([]);
                       }}
                     >
                       Clear Filters
@@ -398,15 +442,19 @@ export default function DecksPage() {
               ) : viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {sortedDecks.map((deck) => (
-                    <Card key={deck.id} className="overflow-hidden">
+                    <Card key={deck.id} className="overflow-hidden border-gray-300">
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div className="space-y-1">
                             <CardTitle className="flex items-center">
                               {deck.title}
-                              {deck.isFavorite && <Star className="h-4 w-4 ml-2 fill-yellow-400 text-yellow-400" />}
+                              {deck.isFavorite && (
+                                <Star className="h-4 w-4 ml-2 fill-yellow-400 text-yellow-400" />
+                              )}
                             </CardTitle>
-                            <CardDescription>{deck.description}</CardDescription>
+                            <CardDescription>
+                              {deck.description}
+                            </CardDescription>
                           </div>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -415,11 +463,19 @@ export default function DecksPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => toggleFavorite(deck.id)}>
+                              <DropdownMenuItem
+                                onClick={() => toggleFavorite(deck.id)}
+                              >
                                 <Star
-                                  className={`h-4 w-4 mr-2 ${deck.isFavorite ? "fill-yellow-400 text-yellow-400" : ""}`}
+                                  className={`h-4 w-4 mr-2 ${
+                                    deck.isFavorite
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : ""
+                                  }`}
                                 />
-                                {deck.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                                {deck.isFavorite
+                                  ? "Remove from Favorites"
+                                  : "Add to Favorites"}
                               </DropdownMenuItem>
                               <DropdownMenuItem>
                                 <Edit className="h-4 w-4 mr-2" />
@@ -441,8 +497,8 @@ export default function DecksPage() {
                               <DropdownMenuItem
                                 className="text-red-500 focus:text-red-500"
                                 onClick={() => {
-                                  setDeckToDelete(deck.id)
-                                  setShowDeleteDialog(true)
+                                  setDeckToDelete(deck.id);
+                                  setShowDeleteDialog(true);
                                 }}
                               >
                                 <Trash2 className="h-4 w-4 mr-2" />
@@ -455,7 +511,11 @@ export default function DecksPage() {
                       <CardContent className="pb-2">
                         <div className="flex flex-wrap gap-1 mb-3">
                           {deck.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}
@@ -482,19 +542,25 @@ export default function DecksPage() {
                   ))}
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-2 ">
                   {sortedDecks.map((deck) => (
                     <div
                       key={deck.id}
-                      className="flex items-center border rounded-md p-3 hover:bg-accent/50 transition-colors"
+                      className="flex items-center border border-gray-300 rounded-md p-3 hover:bg-accent/50 transition-colors"
                     >
                       <div className="flex-1">
                         <div className="flex items-center">
                           <h3 className="font-medium">{deck.title}</h3>
-                          {deck.isFavorite && <Star className="h-4 w-4 ml-2 fill-yellow-400 text-yellow-400" />}
+                          {deck.isFavorite && (
+                            <Star className="h-4 w-4 ml-2 fill-yellow-400 text-yellow-400" />
+                          )}
                           <div className="flex ml-2 gap-1">
                             {deck.tags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
+                              <Badge
+                                key={tag}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {tag}
                               </Badge>
                             ))}
@@ -518,11 +584,19 @@ export default function DecksPage() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => toggleFavorite(deck.id)}>
+                            <DropdownMenuItem
+                              onClick={() => toggleFavorite(deck.id)}
+                            >
                               <Star
-                                className={`h-4 w-4 mr-2 ${deck.isFavorite ? "fill-yellow-400 text-yellow-400" : ""}`}
+                                className={`h-4 w-4 mr-2 ${
+                                  deck.isFavorite
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : ""
+                                }`}
                               />
-                              {deck.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                              {deck.isFavorite
+                                ? "Remove from Favorites"
+                                : "Add to Favorites"}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               <Edit className="h-4 w-4 mr-2" />
@@ -532,8 +606,8 @@ export default function DecksPage() {
                             <DropdownMenuItem
                               className="text-red-500 focus:text-red-500"
                               onClick={() => {
-                                setDeckToDelete(deck.id)
-                                setShowDeleteDialog(true)
+                                setDeckToDelete(deck.id);
+                                setShowDeleteDialog(true);
                               }}
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
@@ -563,7 +637,9 @@ export default function DecksPage() {
                                 {deck.title}
                                 <Star className="h-4 w-4 ml-2 fill-yellow-400 text-yellow-400" />
                               </CardTitle>
-                              <CardDescription>{deck.description}</CardDescription>
+                              <CardDescription>
+                                {deck.description}
+                              </CardDescription>
                             </div>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
@@ -572,7 +648,9 @@ export default function DecksPage() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => toggleFavorite(deck.id)}>
+                                <DropdownMenuItem
+                                  onClick={() => toggleFavorite(deck.id)}
+                                >
                                   <Star className="h-4 w-4 mr-2 fill-yellow-400 text-yellow-400" />
                                   Remove from Favorites
                                 </DropdownMenuItem>
@@ -584,7 +662,11 @@ export default function DecksPage() {
                         <CardContent className="pb-2">
                           <div className="flex flex-wrap gap-1 mb-3">
                             {deck.tags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
+                              <Badge
+                                key={tag}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {tag}
                               </Badge>
                             ))}
@@ -603,7 +685,11 @@ export default function DecksPage() {
                           <Button size="sm" className="flex-1">
                             Study
                           </Button>
-                          <Button size="sm" variant="outline" className="flex-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="flex-1"
+                          >
                             Practice
                           </Button>
                         </CardFooter>
@@ -618,7 +704,7 @@ export default function DecksPage() {
                     .map((deck) => (
                       <div
                         key={deck.id}
-                        className="flex items-center border rounded-md p-3 hover:bg-accent/50 transition-colors"
+                        className="flex items-center border border-gray-300 rounded-md p-3 hover:bg-accent/50 transition-colors"
                       >
                         {/* Same list item content as above */}
                       </div>
@@ -632,7 +718,9 @@ export default function DecksPage() {
                     <Star className="h-8 w-8 text-muted-foreground" />
                   </div>
                   <h3 className="text-lg font-medium">No favorite decks</h3>
-                  <p className="text-muted-foreground mt-1">Mark decks as favorites to access them quickly</p>
+                  <p className="text-muted-foreground mt-1">
+                    Mark decks as favorites to access them quickly
+                  </p>
                 </div>
               )}
             </TabsContent>
@@ -644,7 +732,9 @@ export default function DecksPage() {
                   <Clock className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-medium">Recently studied decks</h3>
-                <p className="text-muted-foreground mt-1">Decks you've studied in the last 7 days will appear here</p>
+                <p className="text-muted-foreground mt-1">
+                  Decks you've studied in the last 7 days will appear here
+                </p>
               </div>
             </TabsContent>
 
@@ -654,7 +744,9 @@ export default function DecksPage() {
                   <Share className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-medium">Shared decks</h3>
-                <p className="text-muted-foreground mt-1">Decks shared with you by other users will appear here</p>
+                <p className="text-muted-foreground mt-1">
+                  Decks shared with you by other users will appear here
+                </p>
               </div>
             </TabsContent>
           </Tabs>
@@ -667,11 +759,15 @@ export default function DecksPage() {
           <DialogHeader>
             <DialogTitle>Delete Deck</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this deck? This action cannot be undone.
+              Are you sure you want to delete this deck? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
               Cancel
             </Button>
             <Button variant="destructive" onClick={deleteDeck}>
@@ -681,5 +777,5 @@ export default function DecksPage() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
