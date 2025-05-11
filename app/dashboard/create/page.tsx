@@ -307,8 +307,8 @@ EchoLearn would then save this answer to help you study effectively.`;
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between p-4">
+      <header className="border-b border-gray-300 bg-card">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-4">
             <Link href="/dashboard">
               <Button variant="ghost" size="icon">
@@ -330,11 +330,11 @@ EchoLearn would then save this answer to help you study effectively.`;
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container py-6">
+      <main className="flex-1 px-6 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Deck Info */}
           <div className="lg:col-span-1 space-y-6">
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader>
                 <CardTitle>Deck Information</CardTitle>
                 <CardDescription>
@@ -351,6 +351,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                     onChange={(e) =>
                       setDeckInfo({ ...deckInfo, title: e.target.value })
                     }
+                    className="border-gray-300"
                   />
                 </div>
                 <div className="space-y-2">
@@ -363,6 +364,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                       setDeckInfo({ ...deckInfo, description: e.target.value })
                     }
                     rows={3}
+                    className="border-gray-300"
                   />
                 </div>
                 <div className="space-y-2">
@@ -384,6 +386,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                           e.preventDefault();
                         }
                       }}
+                      className="border-gray-300"
                     />
                     <Button
                       variant="outline"
@@ -427,7 +430,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                   />
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4">
+              <CardFooter className="border-t border-gray-300 pt-4">
                 <div className="w-full flex flex-col gap-2">
                   <div className="flex justify-between text-sm">
                     <span>Cards in deck:</span>
@@ -443,7 +446,7 @@ EchoLearn would then save this answer to help you study effectively.`;
               </CardFooter>
             </Card>
 
-            <Card>
+            <Card className="border-gray-300">
               <CardHeader>
                 <CardTitle>AI Assistant</CardTitle>
                 <CardDescription>
@@ -502,7 +505,7 @@ EchoLearn would then save this answer to help you study effectively.`;
               </div>
             </div>
 
-            <Card className="border-2">
+            <Card className="border-2 border-gray-300">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">
@@ -570,7 +573,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                           updateCurrentCard("question", e.target.value)
                         }
                         rows={6}
-                        className="resize-none"
+                        className="resize-none border-gray-300"
                       />
                     </div>
                   </TabsContent>
@@ -655,6 +658,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                           e.preventDefault();
                         }
                       }}
+                      className="border-gray-300"
                     />
                     <Button
                       variant="outline"
