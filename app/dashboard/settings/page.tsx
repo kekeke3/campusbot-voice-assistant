@@ -860,7 +860,7 @@ export default function SettingsPage() {
                               <SelectItem value="7-days">7 Days</SelectItem>
                               <SelectItem value="30-days">30 Days</SelectItem>
                               <SelectItem value="90-days">90 Days</SelectItem>
-                              <SelectItem value="never">Don't Store</SelectItem>
+                              <SelectItem value="never">Don&apos;t Store</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>

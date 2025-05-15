@@ -94,8 +94,30 @@ export default function SignUpPage() {
     // Simulate registration
     try {
       // In a real app, you would call your registration API here
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      router.push("/dashboard"); // Redirect to dashboard after successful registration
+
+      const res = await fetch("/api/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Registration error:", errorData);
+        alert("Registration failed: " + (errorData.error || "Unknown error"));
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Registration successful:", data);
+
+      router.push("/sign-in"); // Redirect to sign-in after successful registration
     } catch (error) {
       console.error("Registration failed:", error);
     } finally {

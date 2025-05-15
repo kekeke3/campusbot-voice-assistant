@@ -134,43 +134,47 @@ export default function Dashboard() {
               variant="ghost"
               className={`w-full justify-${sidebarOpen ? "start" : "center"}`}
             >
-              <Home className="h-5 w-5 mr-2" />
+              <Home className={`h-5 w-5 ${sidebarOpen ? "mr-2" : ""}`} />
               {sidebarOpen && <span>Dashboard</span>}
             </Button>
           </Link>
+
           <Link href="/dashboard/decks">
             <Button
               variant="ghost"
               className={`w-full justify-${sidebarOpen ? "start" : "center"}`}
             >
-              <BookMarked className="h-5 w-5 mr-2" />
+              <BookMarked className={`h-5 w-5 ${sidebarOpen ? "mr-2" : ""}`} />
               {sidebarOpen && <span>My Decks</span>}
             </Button>
           </Link>
+
           <Link href="/dashboard/practice">
             <Button
               variant="ghost"
               className={`w-full justify-${sidebarOpen ? "start" : "center"}`}
             >
-              <Mic className="h-5 w-5 mr-2" />
+              <Mic className={`h-5 w-5 ${sidebarOpen ? "mr-2" : ""}`} />
               {sidebarOpen && <span>Voice Practice</span>}
             </Button>
           </Link>
+
           <Link href="/dashboard/stats">
             <Button
               variant="ghost"
               className={`w-full justify-${sidebarOpen ? "start" : "center"}`}
             >
-              <BarChart3 className="h-5 w-5 mr-2" />
+              <BarChart3 className={`h-5 w-5 ${sidebarOpen ? "mr-2" : ""}`} />
               {sidebarOpen && <span>Statistics</span>}
             </Button>
           </Link>
+
           <Link href="/dashboard/settings">
             <Button
               variant="ghost"
               className={`w-full justify-${sidebarOpen ? "start" : "center"}`}
             >
-              <Settings className="h-5 w-5 mr-2" />
+              <Settings className={`h-5 w-5 ${sidebarOpen ? "mr-2" : ""}`} />
               {sidebarOpen && <span>Settings</span>}
             </Button>
           </Link>
@@ -192,9 +196,9 @@ export default function Dashboard() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className=" flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="border-b border-gray-300 bg-card">
+        <header className=" border-b border-gray-300 bg-card">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2 md:gap-4">
               <Button
@@ -214,13 +218,17 @@ export default function Dashboard() {
                 <Input
                   type="search"
                   placeholder="Search..."
-                  className="w-[200px] md:w-[300px] pl-8"
+                  className="w-[200px] md:w-[300px] pl-8 border-gray-300"
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="relative">
+              <Button
+                variant="outline"
+                size="icon"
+                className="relative border-gray-300"
+              >
                 <Bell className="h-4 w-4" />
                 <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
               </Button>
@@ -285,11 +293,14 @@ export default function Dashboard() {
                 </p>
               </div>
               <div className="flex gap-2 mt-4 md:mt-0">
-                <Button className="gap-2">
+                <Button className="gap-2 bg-gray-800  text-white hover:bg-gray-700">
                   <Plus className="h-4 w-4" />
                   <span>New Deck</span>
                 </Button>
-                <Button variant="outline" className="gap-2">
+                <Button
+                  variant="outline"
+                  className="gap-2 hover:bg-gray-100 border-gray-300"
+                >
                   <Play className="h-4 w-4" />
                   <span>Quick Study</span>
                 </Button>
@@ -360,7 +371,7 @@ export default function Dashboard() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="decks">
-              <TabsList className="grid w-full grid-cols-3 md:w-[400px]">
+              <TabsList className="grid w-full grid-cols-3 md:w-[400px] ">
                 <TabsTrigger value="decks">My Decks</TabsTrigger>
                 <TabsTrigger value="exams">Upcoming Exams</TabsTrigger>
                 <TabsTrigger value="ai">AI Suggestions</TabsTrigger>
@@ -371,7 +382,11 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold">Recent Decks</h2>
                   <Link href="/dashboard/decks">
-                    <Button variant="ghost" size="sm">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hover:bg-gray-100"
+                    >
                       View All
                     </Button>
                   </Link>
@@ -399,7 +414,10 @@ export default function Dashboard() {
                         </div>
                       </CardContent>
                       <CardFooter className="pt-0">
-                        <Button size="sm" className="w-full">
+                        <Button
+                          size="sm"
+                          className="w-full bg-gray-900 text-white hover:bg-gray-700"
+                        >
                           Study Now
                         </Button>
                       </CardFooter>
@@ -407,14 +425,16 @@ export default function Dashboard() {
                   ))}
 
                   <Card className="border-dashed border-gray-300 flex flex-col items-center justify-center p-6">
-                    <div className="rounded-full bg-primary/10 p-3 mb-4">
-                      <Plus className="h-6 w-6 text-primary" />
+                    <div className="rounded-full bg-gray-900/10 p-3 mb-4">
+                      <Plus className="h-6 w-6 text-black" />
                     </div>
                     <h3 className="font-medium mb-1">Create New Deck</h3>
                     <p className="text-sm text-muted-foreground text-center mb-4">
                       Add questions and let AI generate answers
                     </p>
-                    <Button>Create Deck</Button>
+                    <Button className="bg-gray-900 text-white hover:bg-gray-700">
+                      Create Deck
+                    </Button>
                   </Card>
                 </div>
               </TabsContent>
@@ -456,8 +476,15 @@ export default function Dashboard() {
                         </div>
                       </CardContent>
                       <CardFooter className="flex justify-between">
-                        <Button variant="outline">View Study Plan</Button>
-                        <Button>Practice Now</Button>
+                        <Button
+                          variant="outline"
+                          className=" hover:bg-gray-100"
+                        >
+                          View Study Plan
+                        </Button>
+                        <Button className="bg-gray-900 text-white hover:bg-gray-700">
+                          Practice Now
+                        </Button>
                       </CardFooter>
                     </Card>
                   ))}
@@ -512,14 +539,18 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent>
                       <p>
-                        Based on your upcoming Biology exam, we've created a
-                        suggested deck focusing on Cell Biology concepts you
+                        Based on your upcoming Biology exam, we&apos;ve created
+                        a suggested deck focusing on Cell Biology concepts you
                         need to review.
                       </p>
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                      <Button variant="outline">Preview</Button>
-                      <Button>Add to My Decks</Button>
+                      <Button variant="outline" className="hover:bg-gray-100">
+                        Preview
+                      </Button>
+                      <Button className="bg-gray-900 text-white hover:bg-gray-700">
+                        Add to My Decks
+                      </Button>
                     </CardFooter>
                   </Card>
 
@@ -532,13 +563,17 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent>
                       <p>
-                        We've analyzed your learning patterns and created an
-                        optimized study schedule for your upcoming exams.
+                        We&apos;ve analyzed your learning patterns and created
+                        an optimized study schedule for your upcoming exams.
                       </p>
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                      <Button variant="outline">Learn More</Button>
-                      <Button>View Schedule</Button>
+                      <Button variant="outline" className="hover:bg-gray-100">
+                        Learn More
+                      </Button>
+                      <Button className="bg-gray-900 text-white hover:bg-gray-700">
+                        View Schedule
+                      </Button>
                     </CardFooter>
                   </Card>
                 </div>

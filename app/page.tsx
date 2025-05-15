@@ -7,11 +7,11 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
-      <header className="border-b border-gray-300 ">
-        <div className=" flex h-16 items-center justify-between px-4 md:px-6">
+      <header className="fixed top-0 left-0 w-full bg-gray-800 z-50 border-b border-gray-300 ">
+        <div className="text-white flex h-16 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6" />
-            <span className="text-xl font-bold">EchoLearn</span>
+            <span className="text-xl  font-bold">EchoLearn</span>
           </div>
           <nav className="hidden md:flex gap-6">
             <Link
@@ -41,7 +41,7 @@ export default function LandingPage() {
             </Link>
 
             <Link href="/sign-up">
-              <button className="h-9 rounded-md px-3 cursor-pointer bg-gray-800 text-white hover:bg-gray-700">
+              <button className="h-9 rounded-md px-3 cursor-pointer bg-gray-100 text-black hover:bg-gray-300">
                 Sign Up
               </button>
             </Link>

@@ -50,7 +50,27 @@ export default function SignInPage() {
     // Simulate authentication
     try {
       // In a real app, you would call your authentication API here
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Registration error:", errorData);
+        alert("Registration failed: " + (errorData.error || "Unknown error"));
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Login response:", data);
+
       router.push("/dashboard"); // Redirect to dashboard after successful login
     } catch (error) {
       console.error("Login failed:", error);
@@ -147,7 +167,7 @@ export default function SignInPage() {
           </Card>
 
           <div className="text-center">
-          <Link
+            <Link
               href="/"
               className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#333333] dark:text-gray-400"
             >
