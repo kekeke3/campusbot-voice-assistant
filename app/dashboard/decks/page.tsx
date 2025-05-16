@@ -229,7 +229,8 @@ export default function DecksPage() {
       <header className="border-b border-gray-300 bg-card">
         <div className=" flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
+            {/*             <BookOpen className="h-5 w-5 text-primary" />
+             */}
             <span className="text-xl font-bold">My Decks</span>
           </div>
           <Link href="/dashboard/create">
@@ -442,7 +443,10 @@ export default function DecksPage() {
               ) : viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {sortedDecks.map((deck) => (
-                    <Card key={deck.id} className="overflow-hidden border-gray-300">
+                    <Card
+                      key={deck.id}
+                      className="overflow-hidden border-gray-300"
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div className="space-y-1">
@@ -531,7 +535,7 @@ export default function DecksPage() {
                         </div>
                       </CardContent>
                       <CardFooter className="pt-0 flex gap-2">
-                        <Button size="sm" className="flex-1">
+                        <Button size="sm" className="flex-1 ">
                           Study
                         </Button>
                         <Button size="sm" variant="outline" className="flex-1">
@@ -733,7 +737,7 @@ export default function DecksPage() {
                 </div>
                 <h3 className="text-lg font-medium">Recently studied decks</h3>
                 <p className="text-muted-foreground mt-1">
-                  Decks you've studied in the last 7 days will appear here
+                  Decks you&apos;ve studied in the last 7 days will appear here
                 </p>
               </div>
             </TabsContent>

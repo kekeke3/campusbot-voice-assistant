@@ -633,7 +633,7 @@ EchoLearn would then save this answer to help you study effectively.`;
                           updateCurrentCard("answer", e.target.value)
                         }
                         rows={6}
-                        className="resize-none"
+                        className="resize-none border-gray-300"
                       />
                     </div>
                   </TabsContent>

@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   BookOpen,
   Mic,
@@ -19,12 +19,19 @@ import {
   Pause,
   Play,
   SkipForward,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Slider } from "@/components/ui/slider"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
 import {
   Dialog,
   DialogContent,
@@ -32,7 +39,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -41,10 +48,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Mock flashcard data
 const mockFlashcards = [
@@ -83,182 +90,189 @@ const mockFlashcards = [
       "The four nucleotide bases in DNA are Adenine (A), Thymine (T), Guanine (G), and Cytosine (C). Adenine pairs with Thymine, and Guanine pairs with Cytosine.",
     tags: ["Biology", "Genetics"],
   },
-]
+];
 
 // Mock decks
 const mockDecks = [
   { id: "1", title: "Biology Midterm", cardCount: 42 },
   { id: "2", title: "Chemistry Formulas", cardCount: 28 },
   { id: "3", title: "History Dates", cardCount: 56 },
-]
+];
 
 export default function VoicePracticePage() {
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-  const [showAnswer, setShowAnswer] = useState(false)
-  const [isRecording, setIsRecording] = useState(false)
-  const [isSpeaking, setIsSpeaking] = useState(false)
-  const [speechRate, setSpeechRate] = useState(1)
-  const [selectedDeck, setSelectedDeck] = useState("1")
-  const [practiceMode, setPracticeMode] = useState<"voice" | "text">("voice")
-  const [userResponse, setUserResponse] = useState("")
-  const [responseAccuracy, setResponseAccuracy] = useState<"correct" | "incorrect" | null>(null)
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechRate, setSpeechRate] = useState(1);
+  const [selectedDeck, setSelectedDeck] = useState("1");
+  const [practiceMode, setPracticeMode] = useState<"voice" | "text">("voice");
+  const [userResponse, setUserResponse] = useState("");
+  const [responseAccuracy, setResponseAccuracy] = useState<
+    "correct" | "incorrect" | null
+  >(null);
   const [sessionStats, setSessionStats] = useState({
     correct: 0,
     incorrect: 0,
     skipped: 0,
     totalTime: 0,
-  })
-  const [sessionActive, setSessionActive] = useState(false)
-  const [sessionPaused, setSessionPaused] = useState(false)
-  const [showSettings, setShowSettings] = useState(false)
-  const [showCompletionDialog, setShowCompletionDialog] = useState(false)
+  });
+  const [sessionActive, setSessionActive] = useState(false);
+  const [sessionPaused, setSessionPaused] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showCompletionDialog, setShowCompletionDialog] = useState(false);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const [elapsedTime, setElapsedTime] = useState(0)
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   // Start/stop session timer
   useEffect(() => {
     if (sessionActive && !sessionPaused) {
       timerRef.current = setInterval(() => {
-        setElapsedTime((prev) => prev + 1)
-      }, 1000)
+        setElapsedTime((prev) => prev + 1);
+      }, 1000);
     } else if (timerRef.current) {
-      clearInterval(timerRef.current)
+      clearInterval(timerRef.current);
     }
 
     return () => {
       if (timerRef.current) {
-        clearInterval(timerRef.current)
+        clearInterval(timerRef.current);
       }
-    }
-  }, [sessionActive, sessionPaused])
+    };
+  }, [sessionActive, sessionPaused]);
 
   // Format time as mm:ss
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
-  }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   // Get current card
-  const currentCard = mockFlashcards[currentCardIndex]
+  const currentCard = mockFlashcards[currentCardIndex];
 
   // Start practice session
   const startSession = () => {
-    setSessionActive(true)
-    setSessionPaused(false)
-    setCurrentCardIndex(0)
-    setShowAnswer(false)
-    setResponseAccuracy(null)
-    setUserResponse("")
+    setSessionActive(true);
+    setSessionPaused(false);
+    setCurrentCardIndex(0);
+    setShowAnswer(false);
+    setResponseAccuracy(null);
+    setUserResponse("");
     setSessionStats({
       correct: 0,
       incorrect: 0,
       skipped: 0,
       totalTime: 0,
-    })
-    setElapsedTime(0)
-  }
+    });
+    setElapsedTime(0);
+  };
 
   // End practice session
   const endSession = () => {
-    setSessionActive(false)
-    setSessionPaused(false)
+    setSessionActive(false);
+    setSessionPaused(false);
     setSessionStats((prev) => ({
       ...prev,
       totalTime: elapsedTime,
-    }))
-    setShowCompletionDialog(true)
-  }
+    }));
+    setShowCompletionDialog(true);
+  };
 
   // Toggle session pause
   const togglePause = () => {
-    setSessionPaused(!sessionPaused)
-  }
+    setSessionPaused(!sessionPaused);
+  };
 
   // Go to next card
   const nextCard = () => {
     if (currentCardIndex < mockFlashcards.length - 1) {
-      setCurrentCardIndex(currentCardIndex + 1)
-      setShowAnswer(false)
-      setResponseAccuracy(null)
-      setUserResponse("")
+      setCurrentCardIndex(currentCardIndex + 1);
+      setShowAnswer(false);
+      setResponseAccuracy(null);
+      setUserResponse("");
     } else {
       // End of deck
-      endSession()
+      endSession();
     }
-  }
+  };
 
   // Go to previous card
   const prevCard = () => {
     if (currentCardIndex > 0) {
-      setCurrentCardIndex(currentCardIndex - 1)
-      setShowAnswer(false)
-      setResponseAccuracy(null)
-      setUserResponse("")
+      setCurrentCardIndex(currentCardIndex - 1);
+      setShowAnswer(false);
+      setResponseAccuracy(null);
+      setUserResponse("");
     }
-  }
+  };
 
   // Toggle recording
   const toggleRecording = () => {
-    if (sessionPaused) return
+    if (sessionPaused) return;
 
-    setIsRecording(!isRecording)
+    setIsRecording(!isRecording);
 
     if (!isRecording) {
       // Simulate starting recording
       setTimeout(() => {
         // Simulate voice recognition result
-        const simulatedResponse = "Photosynthesis is the process where plants use sunlight to create energy"
-        setUserResponse(simulatedResponse)
-        setIsRecording(false)
-      }, 3000)
+        const simulatedResponse =
+          "Photosynthesis is the process where plants use sunlight to create energy";
+        setUserResponse(simulatedResponse);
+        setIsRecording(false);
+      }, 3000);
     }
-  }
+  };
 
   // Toggle text-to-speech
   const toggleSpeech = () => {
-    if (sessionPaused) return
+    if (sessionPaused) return;
 
-    setIsSpeaking(!isSpeaking)
+    setIsSpeaking(!isSpeaking);
 
     if (!isSpeaking) {
       // Simulate text-to-speech
       setTimeout(() => {
-        setIsSpeaking(false)
-      }, 3000)
+        setIsSpeaking(false);
+      }, 3000);
     }
-  }
+  };
 
   // Check answer
   const checkAnswer = () => {
-    if (!userResponse) return
+    if (!userResponse) return;
 
     // In a real app, this would use AI to compare the user's response to the correct answer
     // For this demo, we'll randomly determine if the answer is correct
-    const isCorrect = Math.random() > 0.5
+    const isCorrect = Math.random() > 0.5;
 
-    setResponseAccuracy(isCorrect ? "correct" : "incorrect")
+    setResponseAccuracy(isCorrect ? "correct" : "incorrect");
     setSessionStats((prev) => ({
       ...prev,
-      [isCorrect ? "correct" : "incorrect"]: prev[isCorrect ? "correct" : "incorrect"] + 1,
-    }))
-  }
+      [isCorrect ? "correct" : "incorrect"]:
+        prev[isCorrect ? "correct" : "incorrect"] + 1,
+    }));
+  };
 
   // Skip current card
   const skipCard = () => {
     setSessionStats((prev) => ({
       ...prev,
       skipped: prev.skipped + 1,
-    }))
-    nextCard()
-  }
+    }));
+    nextCard();
+  };
 
   // Calculate progress percentage
-  const progressPercentage = ((currentCardIndex + 1) / mockFlashcards.length) * 100
+  const progressPercentage =
+    ((currentCardIndex + 1) / mockFlashcards.length) * 100;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex-2">
       {/* Header */}
       <header className="border-b border-gray-300 bg-card">
         <div className=" flex items-center justify-between p-4">
@@ -274,7 +288,11 @@ export default function VoicePracticePage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={() => setShowSettings(true)}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setShowSettings(true)}
+            >
               <Settings className="h-4 w-4" />
             </Button>
           </div>
@@ -289,14 +307,15 @@ export default function VoicePracticePage() {
               <CardHeader>
                 <CardTitle>Start Voice Practice Session</CardTitle>
                 <CardDescription>
-                  Practice answering flashcards using your voice to improve recall and speaking skills
+                  Practice answering flashcards using your voice to improve
+                  recall and speaking skills
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="deck-select">Select Deck</Label>
-                  <Select value={selectedDeck} onValueChange={setSelectedDeck} >
-                    <SelectTrigger id="deck-select">
+                  <Select value={selectedDeck} onValueChange={setSelectedDeck}>
+                    <SelectTrigger id="deck-select" className="border-gray-300">
                       <SelectValue placeholder="Select a deck" />
                     </SelectTrigger>
                     <SelectContent>
@@ -318,7 +337,9 @@ export default function VoicePracticePage() {
                     <Tabs
                       defaultValue="voice"
                       className="w-full"
-                      onValueChange={(v) => setPracticeMode(v as "voice" | "text")}
+                      onValueChange={(v) =>
+                        setPracticeMode(v as "voice" | "text")
+                      }
                     >
                       <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="voice">
@@ -350,7 +371,7 @@ export default function VoicePracticePage() {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted p-4">
+                <div className="rounded-lg bg-gray-100 p-4">
                   <h3 className="font-medium mb-2 flex items-center">
                     <Sparkles className="h-4 w-4 mr-2 text-primary" />
                     Voice Practice Benefits
@@ -358,11 +379,15 @@ export default function VoicePracticePage() {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start">
                       <CheckCircle2 className="h-4 w-4 mr-2 text-green-500 mt-0.5" />
-                      <span>Improves recall by 35% compared to silent review</span>
+                      <span>
+                        Improves recall by 35% compared to silent review
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle2 className="h-4 w-4 mr-2 text-green-500 mt-0.5" />
-                      <span>Enhances confidence in expressing concepts verbally</span>
+                      <span>
+                        Enhances confidence in expressing concepts verbally
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle2 className="h-4 w-4 mr-2 text-green-500 mt-0.5" />
@@ -370,7 +395,9 @@ export default function VoicePracticePage() {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle2 className="h-4 w-4 mr-2 text-green-500 mt-0.5" />
-                      <span>Perfect for auditory learners and exam preparation</span>
+                      <span>
+                        Perfect for auditory learners and exam preparation
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -389,7 +416,11 @@ export default function VoicePracticePage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={togglePause}>
-                  {sessionPaused ? <Play className="h-4 w-4 mr-2" /> : <Pause className="h-4 w-4 mr-2" />}
+                  {sessionPaused ? (
+                    <Play className="h-4 w-4 mr-2" />
+                  ) : (
+                    <Pause className="h-4 w-4 mr-2" />
+                  )}
                   {sessionPaused ? "Resume" : "Pause"}
                 </Button>
                 <span className="text-sm font-medium">
@@ -397,7 +428,9 @@ export default function VoicePracticePage() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{formatTime(elapsedTime)}</span>
+                <span className="text-sm font-medium">
+                  {formatTime(elapsedTime)}
+                </span>
                 <Button variant="destructive" size="sm" onClick={endSession}>
                   <X className="h-4 w-4 mr-2" />
                   End Session
@@ -425,20 +458,33 @@ export default function VoicePracticePage() {
                       </Badge>
                     ))}
                   </div>
-                  <Button variant="ghost" size="icon" onClick={toggleSpeech} disabled={isSpeaking || sessionPaused}>
-                    {isSpeaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggleSpeech}
+                    disabled={isSpeaking || sessionPaused}
+                  >
+                    {isSpeaking ? (
+                      <VolumeX className="h-4 w-4" />
+                    ) : (
+                      <Volume2 className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="min-h-[100px] text-lg font-medium">
-                  <h3 className="text-sm text-muted-foreground mb-2">Question:</h3>
+                  <h3 className="text-sm text-gray-500 mb-2">
+                    Question:
+                  </h3>
                   {currentCard.question}
                 </div>
 
                 {showAnswer && (
                   <div className="min-h-[100px] border-t border-gray-300 pt-4">
-                    <h3 className="text-sm text-muted-foreground mb-2">Answer:</h3>
+                    <h3 className="text-sm text-gray-500 mb-2">
+                      Answer:
+                    </h3>
                     <p>{currentCard.answer}</p>
                   </div>
                 )}
@@ -449,11 +495,17 @@ export default function VoicePracticePage() {
                       <Button
                         variant={isRecording ? "destructive" : "outline"}
                         size="lg"
-                        className={`rounded-full h-16 w-16 ${isRecording ? "animate-pulse" : ""}`}
+                        className={`rounded-full h-16 w-16 ${
+                          isRecording ? "animate-pulse" : ""
+                        }`}
                         onClick={toggleRecording}
                         disabled={sessionPaused}
                       >
-                        {isRecording ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
+                        {isRecording ? (
+                          <MicOff className="h-6 w-6" />
+                        ) : (
+                          <Mic className="h-6 w-6" />
+                        )}
                       </Button>
                     </div>
                     {isRecording && (
@@ -463,12 +515,17 @@ export default function VoicePracticePage() {
                     )}
                     {userResponse && !responseAccuracy && (
                       <div className="space-y-2">
-                        <h3 className="text-sm text-muted-foreground">Your response:</h3>
+                        <h3 className="text-sm text-muted-foreground">
+                          Your response:
+                        </h3>
                         <div className="p-3 bg-muted rounded-md">
                           <p>{userResponse}</p>
                         </div>
                         <div className="flex justify-center gap-2">
-                          <Button onClick={checkAnswer} disabled={sessionPaused}>
+                          <Button
+                            onClick={checkAnswer}
+                            disabled={sessionPaused}
+                          >
                             Check Answer
                           </Button>
                         </div>
@@ -476,7 +533,11 @@ export default function VoicePracticePage() {
                     )}
                     {responseAccuracy && (
                       <div
-                        className={`p-4 rounded-md ${responseAccuracy === "correct" ? "bg-green-100 dark:bg-green-900/20" : "bg-red-100 dark:bg-red-900/20"}`}
+                        className={`p-4 rounded-md ${
+                          responseAccuracy === "correct"
+                            ? "bg-green-100 dark:bg-green-900/20"
+                            : "bg-red-100 dark:bg-red-900/20"
+                        }`}
                       >
                         <div className="flex items-center gap-2">
                           {responseAccuracy === "correct" ? (
@@ -485,7 +546,9 @@ export default function VoicePracticePage() {
                             <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
                           )}
                           <h3 className="font-medium">
-                            {responseAccuracy === "correct" ? "Correct!" : "Not quite right"}
+                            {responseAccuracy === "correct"
+                              ? "Correct!"
+                              : "Not quite right"}
                           </h3>
                         </div>
                         <p className="text-sm mt-1">
@@ -493,7 +556,11 @@ export default function VoicePracticePage() {
                             ? "Great job! Your answer matches the key concepts."
                             : "Your answer missed some key concepts. Review the correct answer below."}
                         </p>
-                        <Button variant="link" className="p-0 h-auto text-sm" onClick={() => setShowAnswer(true)}>
+                        <Button
+                          variant="link"
+                          className="p-0 h-auto text-sm"
+                          onClick={() => setShowAnswer(true)}
+                        >
                           Show correct answer
                         </Button>
                       </div>
@@ -502,22 +569,40 @@ export default function VoicePracticePage() {
                 )}
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="outline" onClick={prevCard} disabled={currentCardIndex === 0 || sessionPaused}>
+                <Button
+                  variant="outline"
+                  onClick={prevCard}
+                  disabled={currentCardIndex === 0 || sessionPaused}
+                >
                   <ChevronLeft className="h-4 w-4 mr-2" />
                   Previous
                 </Button>
                 <div className="flex gap-2">
                   {!showAnswer && !userResponse && (
-                    <Button variant="outline" onClick={() => setShowAnswer(true)} disabled={sessionPaused}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowAnswer(true)}
+                      disabled={sessionPaused}
+                    >
                       Show Answer
                     </Button>
                   )}
-                  <Button variant="outline" onClick={skipCard} disabled={sessionPaused}>
+                  <Button
+                    variant="outline"
+                    onClick={skipCard}
+                    disabled={sessionPaused}
+                  >
                     <SkipForward className="h-4 w-4 mr-2" />
                     Skip
                   </Button>
                 </div>
-                <Button onClick={nextCard} disabled={currentCardIndex === mockFlashcards.length - 1 || sessionPaused}>
+                <Button
+                  onClick={nextCard}
+                  disabled={
+                    currentCardIndex === mockFlashcards.length - 1 ||
+                    sessionPaused
+                  }
+                >
                   Next
                   <ChevronRight className="h-4 w-4 ml-2" />
                 </Button>
@@ -539,15 +624,21 @@ export default function VoicePracticePage() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Correct</p>
-                    <p className="text-xl font-bold text-green-600 dark:text-green-400">{sessionStats.correct}</p>
+                    <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                      {sessionStats.correct}
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Incorrect</p>
-                    <p className="text-xl font-bold text-red-600 dark:text-red-400">{sessionStats.incorrect}</p>
+                    <p className="text-xl font-bold text-red-600 dark:text-red-400">
+                      {sessionStats.incorrect}
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Skipped</p>
-                    <p className="text-xl font-bold text-yellow-600 dark:text-yellow-400">{sessionStats.skipped}</p>
+                    <p className="text-xl font-bold text-yellow-600 dark:text-yellow-400">
+                      {sessionStats.skipped}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -561,20 +652,26 @@ export default function VoicePracticePage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Voice Practice Settings</DialogTitle>
-            <DialogDescription>Customize your practice experience</DialogDescription>
+            <DialogDescription>
+              Customize your practice experience
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Text-to-Speech</Label>
-                <p className="text-xs text-muted-foreground">Read questions aloud automatically</p>
+                <p className="text-xs text-muted-foreground">
+                  Read questions aloud automatically
+                </p>
               </div>
               <Switch defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Auto-Check Answers</Label>
-                <p className="text-xs text-muted-foreground">Check answers automatically after speaking</p>
+                <p className="text-xs text-muted-foreground">
+                  Check answers automatically after speaking
+                </p>
               </div>
               <Switch defaultChecked />
             </div>
@@ -596,14 +693,18 @@ export default function VoicePracticePage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Show Hints</Label>
-                <p className="text-xs text-muted-foreground">Display hints when you're stuck</p>
+                <p className="text-xs text-muted-foreground">
+                  Display hints when you&apos;re stuck
+                </p>
               </div>
               <Switch />
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Strict Grading</Label>
-                <p className="text-xs text-muted-foreground">Require more precise answers</p>
+                <p className="text-xs text-muted-foreground">
+                  Require more precise answers
+                </p>
               </div>
               <Switch />
             </div>
@@ -615,23 +716,35 @@ export default function VoicePracticePage() {
       </Dialog>
 
       {/* Session Completion Dialog */}
-      <Dialog open={showCompletionDialog} onOpenChange={setShowCompletionDialog}>
+      <Dialog
+        open={showCompletionDialog}
+        onOpenChange={setShowCompletionDialog}
+
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Practice Session Complete!</DialogTitle>
-            <DialogDescription>You've completed your voice practice session. Here's how you did:</DialogDescription>
+            <DialogDescription>
+              You&apos;ve completed your voice practice session. Here&apos;s how you did:
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-2 gap-4">
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium">Accuracy</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    Accuracy
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
                     {sessionStats.correct + sessionStats.incorrect === 0
                       ? "0"
-                      : Math.round((sessionStats.correct / (sessionStats.correct + sessionStats.incorrect)) * 100)}
+                      : Math.round(
+                          (sessionStats.correct /
+                            (sessionStats.correct + sessionStats.incorrect)) *
+                            100
+                        )}
                     %
                   </div>
                 </CardContent>
@@ -641,7 +754,9 @@ export default function VoicePracticePage() {
                   <CardTitle className="text-sm font-medium">Time</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{formatTime(elapsedTime)}</div>
+                  <div className="text-2xl font-bold">
+                    {formatTime(elapsedTime)}
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -649,15 +764,21 @@ export default function VoicePracticePage() {
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="text-sm text-muted-foreground">Correct</p>
-                <p className="text-xl font-bold text-green-600 dark:text-green-400">{sessionStats.correct}</p>
+                <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                  {sessionStats.correct}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Incorrect</p>
-                <p className="text-xl font-bold text-red-600 dark:text-red-400">{sessionStats.incorrect}</p>
+                <p className="text-xl font-bold text-red-600 dark:text-red-400">
+                  {sessionStats.incorrect}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Skipped</p>
-                <p className="text-xl font-bold text-yellow-600 dark:text-yellow-400">{sessionStats.skipped}</p>
+                <p className="text-xl font-bold text-yellow-600 dark:text-yellow-400">
+                  {sessionStats.skipped}
+                </p>
               </div>
             </div>
 
@@ -666,7 +787,9 @@ export default function VoicePracticePage() {
                 <Sparkles className="h-4 w-4 mr-2 text-primary" />
                 AI Insights
               </h3>
-              <p className="text-sm mb-2">Based on your performance, here are some recommendations:</p>
+              <p className="text-sm mb-2">
+                Based on your performance, here are some recommendations:
+              </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
                   <CheckCircle2 className="h-4 w-4 mr-2 text-green-500 mt-0.5" />
@@ -684,11 +807,18 @@ export default function VoicePracticePage() {
             </div>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button variant="outline" className="sm:flex-1" onClick={() => setShowCompletionDialog(false)}>
+            <Button
+              variant="outline"
+              className="sm:flex-1"
+              onClick={() => setShowCompletionDialog(false)}
+            >
               <RotateCcw className="h-4 w-4 mr-2" />
               Practice Again
             </Button>
-            <Button className="sm:flex-1" onClick={() => setShowCompletionDialog(false)}>
+            <Button
+              className="sm:flex-1"
+              onClick={() => setShowCompletionDialog(false)}
+            >
               <CheckCircle2 className="h-4 w-4 mr-2" />
               Return to Dashboard
             </Button>
@@ -696,5 +826,5 @@ export default function VoicePracticePage() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
